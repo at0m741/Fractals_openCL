@@ -6,7 +6,7 @@
 
 #define WIDTH 1000
 #define HEIGHT 1000
-#define MAX_ITER 400
+#define MAX_ITER 1000
 
 void checkError(cl_int err, const char* operation) {
     if (err != CL_SUCCESS) {
@@ -98,10 +98,10 @@ int main(int argc, char* argv[]) {
     cl_kernel kernel = clCreateKernel(program, "mandelbrot", &ret);
     checkError(ret, "clCreateKernel");
 
-    float zoom = 4.0f / WIDTH;
-    float offsetX = -0.7, offsetY = 0.0;
-	float centerX = -0.7f; // Centre initial de la fractale
-	float centerY = 0.0f;
+    double zoom = 4.0f / WIDTH;
+    double offsetX = -0.7, offsetY = 0.0;
+	double centerX = -0.7f; 
+	double centerY = 0.0f;
     int width = WIDTH;
     int height = HEIGHT;
     int maxIter = MAX_ITER;
@@ -120,13 +120,13 @@ int main(int argc, char* argv[]) {
                 }
             }
             if (event.type == SDL_MOUSEWHEEL) {
-                float mouseX, mouseY;
+                double mouseX, mouseY;
                 int x, y;
                 SDL_GetMouseState(&x, &y);
-                mouseX = (float)x;
-                mouseY = (float)y;
-                float mouseRe = (mouseX - width / 2.0) * zoom + offsetX;
-                float mouseIm = (mouseY - height / 2.0) * zoom + offsetY;
+                mouseX = (double)x;
+                mouseY = (double)y;
+                double mouseRe = (mouseX - width / 2.0) * zoom + offsetX;
+                double mouseIm = (mouseY - height / 2.0) * zoom + offsetY;
                 if (event.wheel.y > 0) zoom /= 1.1;
                 else if (event.wheel.y < 0) zoom *= 1.1;
                 offsetX = mouseRe - (mouseX - width / 2.0) * zoom;
@@ -149,13 +149,13 @@ int main(int argc, char* argv[]) {
         ret = clSetKernelArg(kernel, 2, sizeof(int), &height);
         checkError(ret, "clSetKernelArg 2");
 
-        ret = clSetKernelArg(kernel, 3, sizeof(float), &zoom);
+        ret = clSetKernelArg(kernel, 3, sizeof(double), &zoom);
         checkError(ret, "clSetKernelArg 3");
 
-        ret = clSetKernelArg(kernel, 4, sizeof(float), &offsetX);
+        ret = clSetKernelArg(kernel, 4, sizeof(double), &offsetX);
         checkError(ret, "clSetKernelArg 4");
 
-        ret = clSetKernelArg(kernel, 5, sizeof(float), &offsetY);
+        ret = clSetKernelArg(kernel, 5, sizeof(double), &offsetY);
         checkError(ret, "clSetKernelArg 5");
 
         ret = clSetKernelArg(kernel, 6, sizeof(int), &maxIter);
