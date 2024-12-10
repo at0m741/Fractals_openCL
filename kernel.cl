@@ -113,7 +113,7 @@ __kernel void mandelbrot(__global unsigned char* image, int width, int height,
             double Z_re = c_re_i;
             double Z_im = c_im_j;
 
-            // On calcule aussi la dérivée par rapport à c : Z' (Z'0=0, puis Z'_{n+1} = 2Z Z' + 1)
+
             double dZ_re = 1.0;
             double dZ_im = 0.0;
 
@@ -121,7 +121,6 @@ __kernel void mandelbrot(__global unsigned char* image, int width, int height,
             double Z_re2 = Z_re * Z_re;
             double Z_im2 = Z_im * Z_im;
 
-            // Pour la détection de cycle (périodicité), stocker plusieurs points
             const int cycle_check_interval = 20;
             const int cycle_points = 4;
             double stored_re[cycle_points];
@@ -131,12 +130,10 @@ __kernel void mandelbrot(__global unsigned char* image, int width, int height,
             bool inside = false;
 
             while ((Z_re2 + Z_im2 <= 4.0) && (iter < maxIter)) {
-                // itération de Mandelbrot
                 double temp_Z_re = Z_re;
                 Z_im = 2.0 * Z_re * Z_im + c_im_j;
                 Z_re = Z_re2 - Z_im2 + c_re_i;
 
-                // itération de la dérivée
                 double temp_dZ_re = dZ_re;
                 dZ_re = 2.0*(temp_Z_re * dZ_re - Z_im * dZ_im) + 1.0; 
                 dZ_im = 2.0*(temp_Z_re * dZ_im + Z_im * temp_dZ_re);
@@ -156,7 +153,6 @@ __kernel void mandelbrot(__global unsigned char* image, int width, int height,
                             double di = Z_im - stored_im[k];
                             double dist = dr*dr + di*di;
                             if (dist < 1e-14) {
-                                // Cycle détecté -> Intérieur
                                 inside = true;
                                 break;
                             }
