@@ -1,4 +1,3 @@
-
 __constant double3 palette[16] = {
     (double3)(106.0 / 255.0, 52.0 / 255.0, 3.0 / 255.0),    // Brown 2 (ancien dernier)
     (double3)(153.0 / 255.0, 87.0 / 255.0, 0.0 / 255.0),    // Brown 1
