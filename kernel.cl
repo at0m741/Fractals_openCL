@@ -87,7 +87,6 @@ __kernel void mandelbrot(__global unsigned char* image, int width, int height,
             return;
         }
 
-        // Quelques itérations rapides
         double Zr = c_re_q, Zi = c_im_q;
         double Zr2 = Zr*Zr, Zi2 = Zi*Zi;
         int qi = 0;
@@ -106,7 +105,6 @@ __kernel void mandelbrot(__global unsigned char* image, int width, int height,
             double c_im_j = ((double)j + 0.5) * delta + base_c_im;
 
             if (inside_cardioid(c_re_i, c_im_j) || inside_bulb_period2(c_re_i, c_im_j) || inside_other_bulbs(c_re_i, c_im_j)) {
-                // Intérieur garanti
                 continue;
             }
 
