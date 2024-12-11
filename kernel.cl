@@ -18,7 +18,6 @@ __constant double3 palette[16] = {
 };
 
 
-
 inline bool inside_cardioid(double cr, double ci) {
     double x_minus_quarter = cr - 0.25;
     double q = x_minus_quarter * x_minus_quarter + ci * ci;
